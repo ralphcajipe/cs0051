@@ -12,6 +12,6 @@ sets of data, it seems there is little to no risk of race conditions.
 My test 
 ========= 
 Original: 9780 milliseconds 
-========= 
-Threaded: 5084 milliseconds. 
+
+Threaded: 5084 milliseconds
 The program has been enhanced by 48% in performance.
