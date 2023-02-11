@@ -1,4 +1,4 @@
-// Laboratory 4 - Conditional Variables
+// Lab 4 - Conditional Variables
 // Ralph Cajipe
 
 // Importing the necessary libraries.
