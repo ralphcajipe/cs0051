@@ -24,7 +24,13 @@ std::stack<int> buffer;
 // The maximum size of the buffer.
 const int max_size = 10000;
 
-// The semaphores used for synchronization.
+/*
+The semaphores used for synchronization.
+In this code, three semaphores are used to synchronize access to the buffer: mutex, empty, and full.
+The mutex semaphore is used to protect the critical section where the buffer is accessed.
+The empty semaphore is used to block the producer when the buffer is full,
+and the full semaphore is used to block the consumer when the buffer is empty.
+*/
 sem_t mutex, empty, full;
 
 // The sum of all the elements popped from the buffer.
