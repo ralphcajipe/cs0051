@@ -104,6 +104,7 @@ void consumer(int id)
     while (true)
     {
         // Wait on the full semaphore, which blocks the consumer if the buffer is empty.
+        // The sem_wait function is used to wait for a semaphore to become available
         int ret = sem_wait(&full);
         if (ret == -1)
         {
@@ -122,6 +123,7 @@ void consumer(int id)
         // If the buffer is empty and the producers are done, break out of the loop.
         if (buffer.empty())
         {
+            // The sem_post function is used to signal that the semaphore is available.
             sem_post(&mutex);
             sem_post(&full);
             if (producer_done) {
@@ -154,7 +156,11 @@ int main()
     std::chrono::time_point<std::chrono::system_clock> start, end;
     start = std::chrono::system_clock::now();
 
+    /* The variable `ret` is used to store the return value of the semaphore function `sem_init()`.
+     * Always check the return value of semaphore functions and to handle any errors that may occur.
+     */
     int ret;
+
     // Initialize the semaphores.
     ret = sem_init(&mutex, 0, 1);
     if (ret == -1) {
@@ -186,7 +192,7 @@ int main()
 
     std::cout << "=====================================" << std::endl;
 
-    // Destroy the semaphores in order to free up the memory.
+    // When finished, destroy the semaphores in order to avoid resource leaks and potential problems.
     sem_destroy(&mutex);
     sem_destroy(&empty);
     sem_destroy(&full);
@@ -208,5 +214,6 @@ int main()
     std::cout << "Finished computation at " << std::ctime(&end_time)
               << "Elapsed time: " << elapsed_seconds.count() << "s\n";
 
+    // If the semaphore object was created and initialized successfully
     return 0;
 }
