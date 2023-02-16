@@ -178,7 +178,9 @@ int main()
     consumer1.join();
     consumer2.join();
 
-    // Destroy the semaphores.
+    std::cout << "=====================================" << std::endl;
+
+    // Destroy the semaphores in order to free up the memory.
     sem_destroy(&mutex);
     sem_destroy(&empty);
     sem_destroy(&full);
