@@ -3,12 +3,19 @@
  * Ralph Cajipe
  * This program demonstrates the producer-consumer problem using semaphores.
  *
- * The modifications to the code include:
- *   - Changing the loop limit in the `producer` function to `max_size / 2` to ensure that each thread produces `max_size` elements in total.
- *   - Adding a boolean flag `producer_done` to signal when the producer threads have finished pushing data into the buffer.
- *   - Modifying the initialization of the `full` semaphore to `max_size`.
- *   - Adding a check for the `producer_done` flag in the `consumer` function to avoid deadlock.
- *   - Adding more print statements to help with debugging.
+ * Here are some bullet points about the program:
+ * - The program simulates concurrent access to a shared buffer using a stack, two producer threads,
+ *   and two consumer threads.
+ *   
+ * - The program uses POSIX (Portable Operating System Interface) semaphores to synchronize access to the shared buffer
+ *   and block threads when the buffer is full or empty.
+ *   
+ * - The program generates random integers, pushes them onto the buffer, and calculates their sum when consumed.
+ * 
+ * - The program prints messages to indicate when threads are pushing or popping integers and when they are waiting.
+ * 
+ * - The program checks whether the expected sum of integers produced is equal to the sum
+ *   of integers consumed and prints a message indicating whether the sum is correct.
  */
 
 #include <iostream>
