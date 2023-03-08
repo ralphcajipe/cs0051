@@ -12,6 +12,7 @@ exceptions that can occur when connecting to or communicating with the server. T
 a try-finally block to ensure that the socket is always closed, even if an exception occurs.
 """
 
+# It imports the socket module, which provides access to the BSD socket interface.
 import socket
 
 try:

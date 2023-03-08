@@ -11,10 +11,10 @@
  * program also includes error handling to catch common exceptions that can occur when connecting
  * to or communicating with the server. The program uses try-with-resources to automatically close
  * the socket and other resources when they are no longer needed.
- * 
+ *
  * The functions are:
  *    main()
- * 
+ *
  * The variables are:
  *   socket
  *   input
@@ -28,7 +28,10 @@
  */
 
 
+// Importing the java.io package, which contains the BufferedReader and PrintWriter classes.
 import java.io.*;
+
+// Importing the java.net package, which contains the Socket class.
 import java.net.*;
 
 public class Client {

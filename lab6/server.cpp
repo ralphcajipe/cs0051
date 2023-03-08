@@ -14,6 +14,7 @@
  * exiting, which ensures that all client connections are properly closed before the program terminates.
  */
 
+// Contains constants and structures needed for internet domain addresses.
 #include <netinet/in.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,7 +26,12 @@
 
 #define PORT 8080
 
-// Function to accept a client connection
+
+/**
+ * It reads two numbers from the client, computes their sum, and sends the result back to the client
+ *
+ * @param new_socket The socket descriptor for the accepted connection.
+ */
 void acceptClient(int new_socket)
 {
     int valread;
@@ -49,15 +55,28 @@ void acceptClient(int new_socket)
     close(new_socket);
 }
 
+
+/**
+ * AcceptClient() is a function that is called asynchronously by a thread. It accepts a client
+ * connection, reads the client's message, and sends a response back to the client
+ *
+ * @param argc The number of arguments passed to the program.
+ * @param argv The command line arguments passed to the program.
+ *
+ * @return The server is returning the number of bytes sent.
+ */
 int main(int argc, char const *argv[])
 {
     int server_fd;
     struct sockaddr_in address;
+
+    // `opt` is a variable that is used to set the socket options.
     int opt = 1;
 
     // Creating socket file descriptor
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
     {
+        // This is a function that prints a message to the standard error output stream.
         perror("socket failed");
         exit(EXIT_FAILURE);
     }
@@ -70,8 +89,13 @@ int main(int argc, char const *argv[])
         perror("setsockopt");
         exit(EXIT_FAILURE);
     }
+    // This is a constant that specifies the address family.
     address.sin_family = AF_INET;
+
+    // A special address that tells the server to accept connections from any network interface.
     address.sin_addr.s_addr = INADDR_ANY;
+
+     // Converts the unsigned short integer hostshort from host byte order to network byte order.
     address.sin_port = htons(PORT);
 
     // Forcefully attaching socket to the port 8080
@@ -82,12 +106,17 @@ int main(int argc, char const *argv[])
         exit(EXIT_FAILURE);
     }
 
+    /* This is a function that marks the socket referred to by the file descriptor `server_fd` as a
+    passive socket, that is, as a socket that will be used to accept incoming connection requests
+    using `accept`. The second argument, `3`, is the backlog, which specifies the maximum number of
+    connections that can be queued for this socket. */
     if (listen(server_fd, 3) < 0)
     {
         perror("listen");
         exit(EXIT_FAILURE);
     }
 
+    /* Printing the message "Server running..." and "Accepting Client connection..." to the console. */
     printf("Server running...\n");
     printf("Accepting Client connection...\n");
 
@@ -105,7 +134,7 @@ int main(int argc, char const *argv[])
             exit(EXIT_FAILURE);
         }
 
-        // Launch acceptClient() as an asynchronous thread
+        // Launch acceptClient() as an ASYNCHRONOUS thread
         threads.emplace_back(acceptClient, new_socket);
 
         // Join finished threads
